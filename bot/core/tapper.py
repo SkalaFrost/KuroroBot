@@ -486,9 +486,11 @@ class Tapper:
                                 f"Balance: <cyan>{balance}</cyan> - "
                                 f"Shards: <cyan>{shards}</cyan> - "
                                 f"Raffle Tickets: <cyan>{raffle_tickets}</cyan> - "
-                                f"Beast lvl: <cyan>{beast_lvl}</cyan>")
+                                f"Beast lvl: <cyan>{beast_lvl}</cyan> - "
+                                f"Engery: <cyan>{energy}</cyan>")
 
                     else: 
+                        self.warning("Cant get user info")
                         await asyncio.sleep(300,800)
                         continue
 
@@ -534,7 +536,8 @@ class Tapper:
                         else: 
                             break
                         await asyncio.sleep(random.randint(2,5))
-
+                    else:
+                        self.info("Out of engery")
           
                     while shards > 0:
                         feed_amount = random.randint(*settings.FEED_AMOUNT)
@@ -545,6 +548,8 @@ class Tapper:
                         else: 
                             break
                         await asyncio.sleep(random.randint(2,5))
+                    else:
+                        self.info("Out of shards")
 
                     free_money = balance - settings.SAVE_COIN
                     list_items = await self.get_listings(http_client=http_client)

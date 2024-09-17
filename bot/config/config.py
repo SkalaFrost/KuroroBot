@@ -4,8 +4,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_ignore_empty=True)
 
-    API_ID: int = 1
-    API_HASH: str = "1"
+    API_ID: int = 
+    API_HASH: str = ""
    
     
     FEED_AMOUNT: list = [10,20]

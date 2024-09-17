@@ -134,7 +134,7 @@ venv.bak/
 # Spyder project settings
 .spyderproject
 .spyproject
-
+unknown_errors.txt
 # Rope project settings
 .ropeproject
 
