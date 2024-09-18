@@ -21,6 +21,7 @@ from bot.utils import logger
 from bot.exceptions import InvalidSession
 from .headers import headers
 from pyrogram.raw.types import InputBotAppShortName, InputNotifyPeer, InputPeerNotifySettings
+import inspect
 
 def error_handler(func: Callable):
     @functools.wraps(func)
@@ -28,7 +29,10 @@ def error_handler(func: Callable):
         try:
             return await func(*args, **kwargs)
         except Exception as e:
-            logger.error(f"Error in function '{func.__name__}': {e}")
+            caller_frame = inspect.stack()[1]
+            caller_function_name = caller_frame.function
+            
+            logger.error(f"Error in function '{caller_function_name}': {e}")
             await asyncio.sleep(1)
     return wrapper
 
@@ -225,7 +229,7 @@ class Tapper:
     @error_handler
     async def make_request(self, http_client, method, endpoint=None, url=None, **kwargs):
         full_url = url or f"https://ranch-api.kuroro.com/api{endpoint or ''}"
-        response = await http_client.request(method, full_url, **kwargs)
+        response = await http_client.request(method, full_url, ssl = False, **kwargs)
         response.raise_for_status()
         content_type = response.headers.get("Content-Type", "")
         if "application/json" in content_type:
@@ -338,105 +342,108 @@ class Tapper:
     @error_handler
     async def check_proxy(self, http_client: aiohttp.ClientSession, proxy: Proxy) -> None:
         response = await self.make_request(http_client, 'GET', url='https://httpbin.org/ip', timeout=aiohttp.ClientTimeout(5))
-        ip = response.get('origin')
-        logger.info(f"{self.session_name} | Proxy IP: {ip}")
+        if response and response.get('origin',None):
+            ip = response.get('origin',None)
+            logger.info(f"{self.session_name} | Proxy IP: {ip}")
+        else:
+            logger.warning(f"{self.session_name} | Can't check proxy {proxy}")
 
     @error_handler
     async def welcome(self, http_client):
-        
+        sleep = random.randint(1,3)
         step_1 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"PreStarterSelection"})
-        await asyncio.sleep(1,3)
+        await asyncio.sleep(sleep)
         
         if step_1 == "":
             step_2 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"StarterSelection"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
         
         if step_2 == "":
             step_3 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/SelectStarter"
                                        ,json = {"starterOption": "Digby"})
-        await asyncio.sleep(1,3)
+        await asyncio.sleep(sleep)
 
         if step_3 == "":
             step_4 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep": "TappingEgg"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_4 == "":
             step_5 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"BeastHatched"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_5 == "":
             step_6 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"HelloBeast"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_6 == "":
             step_7 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"FeedBeast"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_7 == "":
             step_8 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"MoodXpExplanation"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_8 == "":
             step_9 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"PreMineShards"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_9 == "":
             step_10 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"MineShards"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_10 == "":
             step_11 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"FeedBeastAgain"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_11 == "":
             step_12 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"FeedBeastMore"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_12 == "":
             step_13 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"BeastLevelUp"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_13 == "":
             step_14 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"CoinSpendingUpgrades"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_14 == "":
             step_15 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"CoinEarningAway"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_15 == "":
             step_16 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"MoreLevelMoreCoins"})
-        await asyncio.sleep(1,3)  
+        await asyncio.sleep(sleep)  
 
         if step_16 == "":
             step_17 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"BeastHappinessAway"})
-        await asyncio.sleep(1,3) 
+        await asyncio.sleep(sleep)  
 
         if step_17 == "":
             step_18 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"BeastHappinessAway2"})
-        await asyncio.sleep(1,3) 
+        await asyncio.sleep(sleep)  
 
         if step_18 == "":
             step_19 = await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/UpdateStep"
                                        ,json = {"newStep":"ThatsAll"})
-        await asyncio.sleep(1,3) 
+        await asyncio.sleep(sleep)  
 
         if step_19 == "":
             step_20 =  await self.make_request(http_client, 'POST', endpoint=f"/Onboarding/CompleteOnboarding"
@@ -469,7 +476,7 @@ class Tapper:
                     if not wellcome_res:
                         self.warning("<light-yellow>Register Failed, Try again</light-yellow> ")
                         
-                elif onboard_res and onboard_res.get("currentStep","") == "ThatsAll":
+                elif onboard_res:
                     user_res = await self.get_user(http_client=http_client)
                     await self.save(http_client=http_client,x = [10,450],y = [10,600])
                     coins_earn_res = await self.get_coinsearnedaway(http_client=http_client)
@@ -590,7 +597,9 @@ class Tapper:
                                     await asyncio.sleep(random.randint(2,10))
                                 else:
                                     self.error(f"Failed to buy upgrade {upgrade['name']}")
-             
+
+                else:
+                    self.error("Failed to tapping!")
 
             except InvalidSession as error:
                 raise error
