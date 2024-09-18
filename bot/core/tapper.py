@@ -599,7 +599,7 @@ class Tapper:
                                     self.error(f"Failed to buy upgrade {upgrade['name']}")
 
                 else:
-                    self.error("Failed to tapping!")
+                    self.error(f"Failed to tapping! ({onboard_res})")
 
             except InvalidSession as error:
                 raise error
