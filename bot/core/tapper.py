@@ -255,19 +255,23 @@ class Tapper:
     
     @error_handler
     async def get_listings(self, http_client):
+       await self.save(http_client=http_client,x = [10,450],y = [10,600])
        return await self.make_request(http_client, 'GET', endpoint="/CoinsShop/GetListings")
     
     @error_handler
     async def buy_item(self, http_client,itemId):
+       await self.save(http_client=http_client,x = [10,450],y = [10,600])
        data = {"itemId":itemId}
        return await self.make_request(http_client, 'POST', endpoint="/CoinsShop/BuyItem",json = data)
     
     @error_handler
     async def get_daily_streak_state(self, http_client):
+       await self.save(http_client=http_client,x = [10,450],y = [10,600])
        return await self.make_request(http_client, 'GET', endpoint="/DailyStreak/GetState")
     
     @error_handler
     async def claim_daily_bonus(self, http_client):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         return await self.make_request(http_client, 'POST', endpoint="/DailyStreak/ClaimDailyBonus", json = {})
     
     @error_handler
@@ -290,6 +294,7 @@ class Tapper:
     
     @error_handler
     async def get_purchasable_upgrades(self, http_client):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         return await self.make_request(http_client, 'GET', endpoint="/Upgrades/GetPurchasableUpgrades")
 
     @error_handler
@@ -299,14 +304,17 @@ class Tapper:
 
     @error_handler
     async def get_quest(self, http_client):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         return await self.make_request(http_client, 'GET', endpoint="/Quests/GetActiveQuests")
     
     @error_handler
     async def get_inventory(self, http_client):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         return await self.make_request(http_client, 'GET', endpoint="/Inventory/GetInventory")
     
     @error_handler
     async def get_raffle_tickets(self, http_client):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         return await self.make_request(http_client, 'GET', endpoint="/RaffleTickets/GetRaffleTickets")
     
     @error_handler
@@ -315,11 +323,13 @@ class Tapper:
     
     @error_handler
     async def use_item(self, http_client,itemId):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         data = {"itemId":itemId}
         return await self.make_request(http_client, 'POST', endpoint="/Inventory/UseItem",json = data)
     
     @error_handler
     async def use_raffle(self, http_client):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         data = {}
         return await self.make_request(http_client, 'POST', endpoint="/RaffleTickets/UseRaffleTicket",json = data)
     
@@ -335,7 +345,12 @@ class Tapper:
         return await self.make_request(http_client, 'POST', endpoint=f"/Bf/Save",json = data)
     
     @error_handler
+    async def getBan(self, http_client):
+        return await self.make_request(http_client, 'GET', endpoint=f"/Bans/GetBanState")
+    
+    @error_handler
     async def reincarnate(self, http_client):
+        await self.save(http_client=http_client,x = [10,450],y = [10,600])
         data = {}
         return await self.make_request(http_client, 'POST', endpoint=f"/Reincarnate/Reincarnate",json = data)
 
@@ -469,6 +484,13 @@ class Tapper:
                     init_data = await self.get_tg_web_data(proxy=proxy)
                     init_data_created_time = time()
                     http_client.headers['authorization'] = f'Bearer {init_data}'
+
+                ban_res = await self.getBan(http_client=http_client)
+                if ban_res and ban_res.get("status") == "Warning":
+                    self.warning(f"<light-yellow>Your Kuroro account may be banned, reason <cyan>{ban_res.get("reason")}</cyan></light-yellow>")
+                elif ban_res and ban_res.get("status") == "Banned":
+                    self.critical(f"<red>Your Kuroro account is banned</red>")
+                    break
 
                 onboard_res = await self.get_onboard(http_client=http_client)
                 if onboard_res and onboard_res.get("currentStep","") == "WelcomeMessage":
