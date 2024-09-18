@@ -487,7 +487,7 @@ class Tapper:
 
                 ban_res = await self.getBan(http_client=http_client)
                 if ban_res and ban_res.get("status") == "Warning":
-                    self.warning(f"<light-yellow>Your Kuroro account may be banned, reason <cyan>{ban_res.get("reason")}</cyan></light-yellow>")
+                    self.warning(f"<light-yellow>Your Kuroro account may be banned, reason <cyan>{ban_res.get('reason')}</cyan></light-yellow>")
                 elif ban_res and ban_res.get("status") == "Banned":
                     self.critical(f"<red>Your Kuroro account is banned</red>")
                     break

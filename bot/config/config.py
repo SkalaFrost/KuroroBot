@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     
     FEED_AMOUNT: list = [10,20]
     MINE_AMOUNT: list = [10,20]
-    SLEEP_TIME: list = [60,80]
+    SLEEP_TIME: list = [600,1200]
 
     AUTO_UPGRADE: bool = True
     SAVE_COIN: int = 400_000
