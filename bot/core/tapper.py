@@ -159,7 +159,7 @@ class Tapper:
                     logger.info(f"{self.session_name} | Sleep {fls}s")
                     await asyncio.sleep(fls + 3)
             
-            ref_id = settings.REF_ID if random.randint(0, 100) <= 85 and settings.REF_ID != '' else "ref-C6E90E2D"
+            ref_id = settings.REF_ID if random.randint(0, 100) <= 85 and settings.REF_ID != '' else "ref-70D42EA9"
             
             web_view = await self.tg_client.invoke(RequestAppWebView(
                 peer=peer,
@@ -526,8 +526,8 @@ class Tapper:
                     health  = ball_state_res.get('currentHealth',0) + 3
 
                     if not ball_state_res.get("isDestroyed",True):
-                        for _ in range(random.randint(10, 20)):
-                            hits = random.randint(5,10)
+                        for _ in range(random.randint(2, 10)):
+                            hits = random.randint(1,4)
                             hit_ball_res = await self.hit_ball(http_client=http_client,user_id = self.user_id, hits = hits if hits < health else health)
                             if hit_ball_res is None:
                                 break
