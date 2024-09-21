@@ -1,10 +1,10 @@
-[![Static Badge](https://img.shields.io/badge/Telegram-Channel-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/airdropfactorycn)       [![Static Badge](https://img.shields.io/badge/Telegram-Bot%20Link-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/KuroroRanchBot/ranch?startapp=ref-C6E90E2D)
+[![Static Badge](https://img.shields.io/badge/Telegram-Channel-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/airdropfactorycn)       [![Static Badge](https://img.shields.io/badge/Telegram-Bot%20Link-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/KuroroRanchBot/ranch?startapp=ref-22DBDBE5)
 
 ⚠️ **Warning: Using this tool may result in your account being banned. Please consider carefully before using!** ⚠️
 
 
 #### Support our team by clicking on the referral link below. Your contribution helps us continue improving and developing our bot. Thank you!
-[Click here](https://t.me/KuroroRanchBot/ranch?startapp=ref-C6E90E2D)
+[Click here](https://t.me/KuroroRanchBot/ranch?startapp=ref-22DBDBE5)
 ## Recommendation before use
 
 # 🔥🔥 PYTHON version must be 3.10 🔥🔥
