@@ -159,7 +159,7 @@ class Tapper:
                     logger.info(f"{self.session_name} | Sleep {fls}s")
                     await asyncio.sleep(fls + 3)
             
-            ref_id = settings.REF_ID if random.randint(0, 100) <= 85 and settings.REF_ID != '' else "ref-70D42EA9"
+            ref_id = settings.REF_ID if random.randint(0, 100) <= 85 and settings.REF_ID != '' else "ref-22DBDBE5"
             
             web_view = await self.tg_client.invoke(RequestAppWebView(
                 peer=peer,
@@ -543,7 +543,8 @@ class Tapper:
                         recv_item = await self.use_raffle(http_client=http_client)
                         if recv_item:
                             self.info(f"Use raffle ticket successfully, get <cyan>{recv_item}</cyan>")
-
+                            await asyncio.sleep(random.randint(2,5))
+                            
                     ball_state_res = await self.get_ball_state(http_client=http_client)
                     health  = ball_state_res.get('currentHealth',0) + 3
 
@@ -556,23 +557,25 @@ class Tapper:
                             self.info(f"Hitting ball succeeded, number of hits: <cyan>{hits}</cyan>")
                             await asyncio.sleep(random.randint(2,5))
 
-                    while energy > 0:
+                    _energy = random.randint(0,energy)
+                    while _energy > 0:
                         mine_amount = random.randint(*settings.MINE_AMOUNT)
                         farm_response = await self.perform_farming(http_client=http_client,mine_amount = mine_amount if mine_amount < energy else energy)
                         if farm_response is not None: 
-                            energy -= mine_amount 
+                            _energy -= mine_amount 
                             self.info(f"Farming succeeded, mined amount: <cyan>{mine_amount}</cyan>")
                         else: 
                             break
                         await asyncio.sleep(random.randint(2,5))
                     else:
                         self.info("Out of engery")
-          
-                    while shards > 0:
+
+                    _shards = random.randint(0,shards)
+                    while _shards > 0:
                         feed_amount = random.randint(*settings.FEED_AMOUNT)
                         feed_response = await self.perform_feeding(http_client=http_client,feed_amount = feed_amount if feed_amount < shards else shards)
                         if feed_response is not None: 
-                                shards -= feed_amount
+                                _shards -= feed_amount
                                 self.info(f"Feeding succeeded, feeding amount: <cyan>{feed_amount}</cyan>")
                         else: 
                             break
